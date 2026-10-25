@@ -1,0 +1,19 @@
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    gap: 20px;
+    min-height: 100vh;
+}
+
+.esquerda {
+    background-color: rgb(67, 68, 68);
+}
+
+.centro {
+    background-color: rgb(221, 226, 240);
+}
+
+.direita {
+    background-color: rgb(67, 68, 68);
+}

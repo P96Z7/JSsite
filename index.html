@@ -3,9 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Welcome to SocialMedia</title>
 </head>
-<body>
+<body id="bodyLog">
+    <h1>SOCIAL MEDIA</h1>
+    <br>
+    <form id="formlogin">
+        <fieldset>
+        <div>
+            <label for="user">User:</label>
+            <input type="text" id="user" required>
+        </div>
+        <div>
+            <label for="passwd">Password:</label>
+            <input type="password" id="passwd" required>
+        </div>
+        <button type="submit">Login</button>
+        <button type="button" id="register">Register</button>    
+    </fieldset>
+    </form>
+    <script type="module" src="./js/login/script.js"></script>
     
 </body>
 </html>
