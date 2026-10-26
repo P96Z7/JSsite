@@ -4,32 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
-</head>
+    <link rel="stylesheet" href="../style/style_logReg.css">
+  
+</head> 
 <body id="bodyReg">
     <a href="../index.html">Return to Login Page</a>
     <h1>Register</h1>
     <br>
-    <form id="formReg">
-        <fieldset>
-            <div>
-                <label for="loginReg">Login:</label>
-                <input type="text" required id="loginReg">
-            </div>
-            <div>
-                <label for="passwdReg">Password:</label>
-                <input type="password" required id="passwdReg">
-            </div>
-            <div>
-                <label for="nameReg">Name:</label>
-                <input type="text" required id="nameReg">
-            </div>
-            <div>
-                <label for="img">Image:</label>
-                <input type="text" required id="imgReg">
-            </div>
-            <button type="submit">Register Now!</button>
-        </fieldset>
-    </form>
+    <div class="register-container">
+        <form id="formReg">
+            <fieldset>
+                <div>
+                    <label for="loginReg">Login:</label>
+                    <input type="text" required id="loginReg">
+                </div>
+                <div>
+                    <label for="passwdReg">Password:</label>
+                    <input type="password" required id="passwdReg">
+                </div>
+                <div>
+                    <label for="nameReg">Name:</label>
+                    <input type="text" required id="nameReg">
+                </div>
+                <div>
+                    <label for="imgReg">Image:</label>
+                    <input type="url" required id="imgReg">
+                </div>
+                <button type="submit">Register Now!</button>
+            </fieldset>
+        </form>
+        <aside class="image-preview">
+            <h2>Foto de Perfil</h2>
+            <img id="previewImg" alt="Prévia img">
+            <p id="previewMsg">Insira URL para visualizar a imagem</p> 
+        </aside>
+    </div>
     <script type="module" src="../js/register/script.js"></script> 
 </body>
 </html>

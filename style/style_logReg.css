@@ -1,0 +1,371 @@
+/* style/style_login.css */
+/* Tema compartilhado para login e cadastro */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --background: #0b1020;
+    --surface: #151c30;
+    --surface-hover: #1d2740;
+    --border: #2b3650;
+    --primary: #758bff;
+    --primary-hover: #91a2ff;
+    --text: #f1f4ff;
+    --text-muted: #9ca8c0;
+    --danger: #ff7585;
+    --success: #70d6a0;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.register-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 35px;
+
+    width: min(900px, 100%);
+    align-items: stretch;
+}
+
+body#bodyLog,
+body#bodyReg {
+    min-height: 100vh;
+    min-height: 100dvh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding: 32px 20px;
+
+    background:
+        radial-gradient(
+            ellipse at 50% 0%,
+            rgba(91, 111, 220, 0.16),
+            transparent 60%
+        ),
+        var(--background);
+
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.5;
+}
+
+/* Títulos */
+
+#bodyLog h1,
+#bodyReg h1 {
+    margin-bottom: 30px;
+
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    text-align: center;
+
+    color: var(--text);
+}
+
+#bodyLog h1 {
+    text-transform: uppercase;
+}
+
+#bodyLog > br,
+#bodyReg > br {
+    display: none;
+}
+
+/* Formulários */
+
+#formlogin,
+#formReg {
+    width: 100%;
+    max-width: 420px;
+}
+
+#formlogin fieldset,
+#formReg fieldset {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    padding: 36px;
+
+    border: 1px solid var(--border);
+    border-radius: 18px;
+
+    background: var(--surface);
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.25),
+        0 1px 2px rgba(0, 0, 0, 0.12);
+}
+
+/* Campos */
+
+#formlogin fieldset > div,
+#formReg fieldset > div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+#formlogin label,
+#formReg label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+#formlogin input,
+#formReg input {
+    width: 100%;
+    height: 46px;
+
+    padding: 0 14px;
+
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    outline: none;
+
+    background: #0f1627;
+    color: var(--text);
+
+    font-family: inherit;
+    font-size: 0.95rem;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+#formlogin input:hover,
+#formReg input:hover {
+    border-color: #455575;
+}
+
+#formlogin input:focus,
+#formReg input:focus {
+    border-color: var(--primary);
+
+    box-shadow:
+        0 0 0 3px rgba(117, 139, 255, 0.13);
+
+    background: #121b30;
+}
+
+#formlogin input::placeholder,
+#formReg input::placeholder {
+    color: #64718d;
+}
+
+/* Botões */
+
+#formlogin button,
+#formReg button {
+    width: 100%;
+    min-height: 46px;
+
+    padding: 12px 18px;
+
+    border: 1px solid transparent;
+    border-radius: 9px;
+
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+/* Botão principal */
+
+#formlogin button[type="submit"],
+#formReg button[type="submit"] {
+    background: var(--primary);
+    color: #0b1020;
+}
+
+#formlogin button[type="submit"]:hover,
+#formReg button[type="submit"]:hover {
+    background: var(--primary-hover);
+
+    box-shadow:
+        0 5px 20px rgba(117, 139, 255, 0.2);
+
+    transform: translateY(-2px);
+}
+
+/* Botão secundário de cadastro */
+
+#register {
+    background: transparent;
+    color: var(--primary);
+
+    border-color: var(--border) !important;
+}
+
+#register:hover {
+    background: var(--surface-hover);
+    border-color: var(--primary) !important;
+}
+
+#formlogin button:active,
+#formReg button:active {
+    transform: scale(0.98);
+}
+
+#formlogin button:focus-visible,
+#formReg button:focus-visible,
+#bodyReg > a:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 3px;
+}
+
+/* Link de retorno do cadastro */
+
+#bodyReg > a {
+    margin-bottom: 25px;
+    padding: 8px 12px;
+
+    color: var(--text-muted);
+    text-decoration: none;
+
+    font-size: 0.85rem;
+    font-weight: 500;
+
+    border-radius: 8px;
+
+    transition:
+        color 0.2s ease,
+        background 0.2s ease;
+}
+
+#bodyReg > a:hover {
+    color: var(--primary);
+    background: rgba(117, 139, 255, 0.08);
+}
+
+/*Imagem*/
+.image-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+
+    min-height: 320px;
+    padding: 25px;
+
+    background: #151c30;
+    border: 1px solid #2b3650;
+    border-radius: 18px;
+}
+
+#previewImg {
+    display: none;
+
+    width: 200px;
+    height: 200px;
+
+    object-fit: cover;
+    border-radius: 50%;
+
+    border: 3px solid #758bff;
+}
+
+#previewMessage {
+    color: #9ca8c0;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+@media (max-width: 700px) {
+    .register-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Mensagens geradas pelo JavaScript */
+
+#LogErr {
+    color: var(--danger);
+    background: rgba(255, 117, 133, 0.08);
+
+    border: 1px solid rgba(255, 117, 133, 0.25);
+    border-radius: 9px;
+
+    padding: 12px 16px;
+
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-align: center;
+
+    overflow-wrap: anywhere;
+}
+
+#formReg > h2:not(#LogErr),
+#formlogin > h2:not(#LogErr) {
+    margin-top: 14px;
+    padding: 12px 16px;
+
+    border: 1px solid rgba(112, 214, 160, 0.25);
+    border-radius: 9px;
+
+    background: rgba(112, 214, 160, 0.08);
+    color: var(--success);
+
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: center;
+
+    overflow-wrap: anywhere;
+}
+
+/* Acessibilidade */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+/* Responsividade */
+
+@media (max-width: 480px) {
+    body#bodyLog,
+    body#bodyReg {
+        padding: 24px 16px;
+    }
+
+    #bodyLog h1,
+    #bodyReg h1 {
+        margin-bottom: 24px;
+    }
+
+    #formlogin fieldset,
+    #formReg fieldset {
+        padding: 26px 22px;
+        gap: 18px;
+        border-radius: 14px;
+    }
+
+    #formlogin input,
+    #formReg input {
+        font-size: 16px;
+    }
+}

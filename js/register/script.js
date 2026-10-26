@@ -1,5 +1,6 @@
-import { formReg, loginReg as l,nameReg as n,passwdReg as p,imageReg as i } from "../constants.js";
+import { formReg, loginReg as l,nameReg as n,passwdReg as p,imgReg as i , previewImg, previewMsg} from "../constants.js";
 import { registerAPI, UsersAPI } from "../apiFunc.js";
+
 
 async function _register(nome,login,senha,img) {
     let check=0;
@@ -37,13 +38,39 @@ async function _register(nome,login,senha,img) {
 
 
     
-};
-
+}
 
 formReg.addEventListener("submit",(e)=>{
     e.preventDefault();
     _register(n.value,l.value,p.value,i.value);
-})
+});
+
+//img 
+i.addEventListener("input", () => {
+    const url = i.value.trim();
+
+    if (!url) {
+        previewImg.removeAttribute("src");
+        previewImg.style.display = "none";
+        previewMsg.innerText = "Insira uma URL para visualizar a imagem.";
+        return;
+    }
+
+    previewImg.style.display = "none";
+    previewMsg.innerText = "Carregando imagem...";
+
+    previewImg.src = url;
+});
+
+previewImg.addEventListener("load", () => {
+    previewImg.style.display = "block";
+    previewMsg.innerText = "";
+});
+
+previewImg.addEventListener("error", () => {
+    previewImg.style.display = "none";
+    previewMsg.innerText = "Não foi possível carregar a imagem.";
+});
 
 
 
