@@ -4,7 +4,7 @@ import { setToken } from "../auth.js";
 
 async function login(user,passwd){
     try{
-        const usuario= await loginAPI(user,passwd);
+        const usuario = await loginAPI(user,passwd);
         setToken(usuario.token);
         // Redireciona para outra página
         window.location.href = "./pages/feed.html";

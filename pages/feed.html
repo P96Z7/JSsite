@@ -1,29 +1,72 @@
+
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SocialMedia</title>
-    <link rel="stylesheet" href="../style/style_feed.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Social Media</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style/style_feed.css">
 </head>
 <body>
 
-<div class="container">
+  <!-- TOPO -->
+  <header class="topbar">
+    <div class="topbar__inner">
+      <h1 class="logo">SOCIAL MEDIA</h1>
 
-    <div class="esquerda">
-        <div class="perfil">
+      <div class="user">
+        <div class="user__info">
+          <img id="user-avatar" class="avatar" src="" alt="" hidden>
+          <span id="user-initials" class="avatar" aria-hidden="true">?</span>
+          <span id="user-name" class="user__name">Nome do usuário</span>
+        </div>
+        <button id="logout-btn" class="btn btn--ghost btn--small" type="button">Encerrar sessão</button>
+      </div>
     </div>
+  </header>
 
-    <div class="centro">
-        <h1>FEED pós login correto
-        </h1>
-    </div>
+  <!-- CONTEÚDO -->
+  <main class="container">
 
-    <div class="direita">
-        <h2>Informações adicionais</h2>
-    </div>
-</div>
+    <!-- Nova postagem (somente texto) -->
+    <section class="card composer" aria-labelledby="composer-title">
+      <h2 id="composer-title" class="visually-hidden">Nova postagem</h2>
+      <form id="post-form">
+        <label for="post-text" class="visually-hidden">Texto da postagem</label>
+        <textarea id="post-text" name="text" class="field" rows="3" maxlength="500"
+                  placeholder="O que você está pensando?" required></textarea>
+        <div class="composer__footer">
+          <span id="char-count" class="muted">0/500</span>
+          <button class="btn" type="submit">Publicar</button>
+        </div>
+      </form>
+    </section>
 
-<script type="module" src="../js/feed/scripts.js"></script>
+    <!-- Feed: o JS insere as postagens aqui -->
+    <section id="feed" class="feed" aria-live="polite" aria-label="Postagens"></section>
+
+    <!-- Mensagem para feed vazio (o JS pode remover o atributo hidden quando não houver posts) -->
+    <p id="feed-empty" class="muted feed-empty" hidden>Nenhuma postagem ainda. Escreva a primeira!</p>
+
+    <!-- Modelo de uma postagem: o JS clona este template para cada post vindo do servidor -->
+    <template id="post-template">
+      <article class="card post">
+        <header class="post__header">
+          <span class="avatar post__avatar" data-field="initials" aria-hidden="true"></span>
+          <div>
+            <div class="post__author" data-field="author"></div>
+            <time class="muted" data-field="date"></time>
+          </div>
+        </header>
+        <p class="post__text" data-field="text"></p>
+      </article>
+    </template>
+
+  </main>
+
+  <script type="module" src="../js/feed/scripts.js"></script>
 </body>
 </html>
