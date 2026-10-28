@@ -24,6 +24,16 @@ export const imgReg=document.querySelector("#imgReg");
 
 //--------::>> Feed <<::---------\\
 export const bodyFeed=document.querySelector("#feed");
+//nav
+export const logoutBtn=document.querySelector("#logout-btn")
+
+//publi
 export const cardFeed=document.querySelector("#post-template");
+
+
+//user constants
+export const imgUser=document.querySelector("#user-avatar");
+export const userName=document.querySelector("#user-name");
+export const userHidden=document.querySelector("#user-initials");
 
 

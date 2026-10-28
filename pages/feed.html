@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../style/style_feed.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 
@@ -21,9 +22,9 @@
         <div class="user__info">
           <img id="user-avatar" class="avatar" src="" alt="" hidden>
           <span id="user-initials" class="avatar" aria-hidden="true">?</span>
-          <span id="user-name" class="user__name">Nome do usuário</span>
+          <span id="user-name" class="user__name"></span>
         </div>
-        <button id="logout-btn" class="btn btn--ghost btn--small" type="button">Encerrar sessão</button>
+        <button id="logout-btn" class="btn btn--ghost btn--small" type="button">Logout</button>
       </div>
     </div>
   </header>
@@ -35,11 +36,15 @@
     <section class="card composer" aria-labelledby="composer-title">
       <h2 id="composer-title" class="visually-hidden">Nova postagem</h2>
       <form id="post-form">
-        <label for="post-text" class="visually-hidden">Texto da postagem</label>
-        <textarea id="post-text" name="text" class="field" rows="3" maxlength="500"
-                  placeholder="O que você está pensando?" required></textarea>
+        <div>
+          <label for="post-text" class="visually-hidden">Texto da postagem</label>
+          <textarea id="post-text" name="text" class="field" rows="3" maxlength="500"
+                    placeholder="O que você está pensando?" required></textarea>
+
+          <label for="post-image" class="visually-hidden">URL Imagem</label>
+          <input type="text" id="post-image" class="field" placeholder="URL da sua imagem...">
+        </div>
         <div class="composer__footer">
-          <span id="char-count" class="muted">0/500</span>
           <button class="btn" type="submit">Publicar</button>
         </div>
       </form>
@@ -66,6 +71,35 @@
           </div>
         </header>
         <p class="post__text" data-field="text"></p>
+        <div class="button-containers">
+          <button class="like-btn" data-field="like">
+            <!--like button-->
+            <svg xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+
+               <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </button>
+            <span data-field="like-units">0</span>
+
+    <!--      <button class="btn-comentario" aria-label="Comentar" id="coment-button">
+            <svg viewBox="0 0 24 24" 
+              xmlns="http://w3.org">
+              <path class="balao" d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
+              <circle cx="6" cy="10" r="1.5" class="ponto" />
+              <circle cx="12" cy="10" r="1.5" class="ponto" />
+              <circle cx="18" cy="10" r="1.5" class="ponto" />
+            </svg>
+          </button>
+          -->
+        </div>
       </article>
     </template>
 
