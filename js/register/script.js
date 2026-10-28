@@ -25,6 +25,8 @@ async function _register(nome,login,senha,img) {
             sucessfull.innerText="Sucesfull register";
             sucessfull.id="sucessReg";
             formReg.appendChild(sucessfull);
+            window.location.href = "../../feed.html";
+
         }
         catch(erro){
             document.querySelector("#LogErr")?.remove();

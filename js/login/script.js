@@ -1,13 +1,15 @@
 import {formLogin, userLogin, passwdLogin, registerLog  } from "../constants.js";
 import { loginAPI } from "../apiFunc.js";
-import { setToken } from "../auth.js";
+import { setToken, setUser } from "../auth.js";
 
 async function login(user,passwd){
     try{
         const usuario = await loginAPI(user,passwd);
         setToken(usuario.token);
+        setUser(usuario.usuario);
         // Redireciona para outra página
         window.location.href = "./pages/feed.html";
+        
     }
     catch(erro){
         document.querySelector("#LogErr")?.remove();

@@ -104,6 +104,32 @@ body {
 .post__author { font-weight: 600; }
 .post__text { margin: 14px 0 0; line-height: 1.55; white-space: pre-wrap; overflow-wrap: anywhere; }
 
+
+
+.like-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border: none;
+    background: transparent;
+    color: #666;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.like-btn svg {
+    transition: transform 0.2s ease;
+}
+
+.like-btn:hover svg {
+    transform: scale(1.1);
+}
+
+.like-btn.liked {
+    color: #a5a5a5;
+}
+
 @media (max-width: 480px) {
   .logo { font-size: 19px; }
   .topbar__inner, .container { padding-left: 14px; padding-right: 14px; }
