@@ -59,3 +59,14 @@ export async function registerAPI(log,password,name,image){
     return true;
 
 };
+
+///--> Funções Feed API
+
+export async function getInfoPosts(){
+    let posts= await fetch(url+"/posts/");
+    if(!posts.ok){
+        throw new Error("Erro de requisição de posts");
+    }
+    let postsJSON = await posts.json();
+    return postsJSON;
+}

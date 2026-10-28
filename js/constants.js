@@ -20,3 +20,10 @@ export const loginReg=document.querySelector("#loginReg");
 export const passwdReg=document.querySelector("#passwdReg");
 export const nameReg=document.querySelector("#nameReg");
 export const imgReg=document.querySelector("#imgReg");
+
+
+//--------::>> Feed <<::---------\\
+export const bodyFeed=document.querySelector("#feed");
+export const cardFeed=document.querySelector("#post-template");
+
+
