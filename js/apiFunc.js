@@ -1,4 +1,5 @@
 import { urlBase as url} from "./constants.js";
+import { getToken as userToken } from "./auth.js";
 
 
 // ---> login
@@ -64,9 +65,7 @@ export async function registerAPI(log,password,name,image){
 
 };
 
-/// --->Feed
-
-
+/// --->GetFeed
 
 export async function getInfoPosts(){
     let posts= await fetch(url+"/posts/");
@@ -78,11 +77,11 @@ export async function getInfoPosts(){
 }
 
 
-export async function checkUserLogin(token){
+export async function checkUserLogin(){
     let op = {
         method: "GET",
         headers: {
-            "Authorization": `Bearer ${token}`,
+            "Authorization": `Bearer ${userToken()}`,
             "Content-Type": "application/json"
         }
     }
@@ -105,16 +104,34 @@ export async function getLikes(id){
     return likesJSON;
 }
 
-export async function setLike(id,userToken) {
+export async function setLike(id) {
     let allLikes= await fetch(url+`/posts/${id}/likes`,{
         method:"POST",
         headers:{
-            "Authorization":`Bearer ${userToken}`,
+            "Authorization":`Bearer ${userToken()}`,
             "Content-Type":"application/json"
         }
     });
     if(!allLikes.ok){
         throw new Error("Erro de ação[LIKE]");
+    }
+    return true;
+}
+
+
+//---> send post
+
+export async function sendPost(msg,image) {
+    let operation=await fetch(url+"/posts/",{
+        method:"POST",
+        headers:{
+            "Authorization":`Bearer ${userToken()}`,
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({texto:msg,img:image}),
+    });
+    if(!operation.ok){
+        throw new Error("Erro de postagem");
     }
     return true;
 }

@@ -29,7 +29,7 @@
     </div>
   </header>
 
-  <!-- CONTEÚDO -->
+  <!-- POST -->
   <main class="container">
 
     <!-- Nova postagem (somente texto) -->
@@ -42,14 +42,17 @@
                     placeholder="O que você está pensando?" required></textarea>
 
           <label for="post-image" class="visually-hidden">URL Imagem</label>
-          <input type="text" id="post-image" class="field" placeholder="URL da sua imagem...">
+          <input type="url" id="post-image" class="field" placeholder="URL da sua imagem...">
         </div>
         <div class="composer__footer">
-          <button class="btn" type="submit">Publicar</button>
+          <button id="postPubli-btn" class="btn" type="submit">Publicar</button>
         </div>
       </form>
     </section>
-
+    
+    
+    
+    <!--CONTEUDO-->
     
     <section id="feed" class="feed" aria-live="polite" aria-label="Postagens">
       <!-- Feed: o JS insere as postagens aqui -->
@@ -64,13 +67,15 @@
     <template id="post-template">
       <article class="card post">
         <header class="post__header">
-          <span class="avatar post__avatar" data-field="initials" aria-hidden="true"></span>
-          <div>
+          <img data-field="post-avatar" class="avatar" src="" alt="" hidden>
+          <span data-field="post-initials" class="avatar" aria-hidden="true">?</span>          
+      
             <div class="post__author" data-field="author"></div>
             <time class="muted" data-field="date"></time>
-          </div>
+          
         </header>
         <p class="post__text" data-field="text"></p>
+        <img src="" data-field="post-img" hidden>
         <div class="button-containers">
           <button class="like-btn" data-field="like">
             <!--like button-->
@@ -105,6 +110,8 @@
 
   </main>
 
-  <script type="module" src="../js/feed/scripts.js"></script>
+  <script type="module" src="../js/feed/getFeed.js"></script>
+  <script type="module" src="../js/feed/userFuncs/comments.js"></script>
+  <script type="module" src="../js/feed/userFuncs/post.js"></script>
 </body>
 </html>
