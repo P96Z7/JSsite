@@ -25,7 +25,12 @@ export const imgReg=document.querySelector("#imgReg");
 //--------::>> Feed <<::---------\\
 export const bodyFeed=document.querySelector("#feed");
 //nav
-export const logoutBtn=document.querySelector("#logout-btn")
+export const logoutBtn=document.querySelector("#logout-btn");
+
+//post
+export const postForm=document.querySelector("#post-form");
+export const imgPost=document.querySelector("#post-image");
+export const txtPost=document.querySelector("#post-text"); 
 
 //publi
 export const cardFeed=document.querySelector("#post-template");
