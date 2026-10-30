@@ -6,10 +6,12 @@ postForm.addEventListener("submit",async (e)=>{
     e.preventDefault();
     try{
         await sendPost(txtPost.value,imgPost.value);
+        txtPost.value="";
+        imgPost.value="";
         setFeed();
 
     }
     catch(erro){
-        console.log(e);
+        console.error(erro);
     }
 });
