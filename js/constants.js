@@ -35,6 +35,8 @@ export const txtPost=document.querySelector("#post-text");
 //publi
 export const cardFeed=document.querySelector("#post-template");
 
+//comment
+export const commentTemplate=document.querySelector("#comment-template");
 
 //user constants
 export const imgUser=document.querySelector("#user-avatar");

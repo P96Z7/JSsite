@@ -1,5 +1,5 @@
-import { getInfoPosts,getLikes,setLike , UsersAPI} from "../apiFunc.js";
-import { cardFeed ,bodyFeed, userName, imgUser, userHidden, logoutBtn} from "../constants.js";
+import { delComment, deletePost, getComments, getInfoPosts,getLikes,sendComment,setLike , UsersAPI} from "../apiFunc.js";
+import { cardFeed , commentTemplate,bodyFeed, userName, imgUser, userHidden, logoutBtn} from "../constants.js";
 import { getId, getToken,getUserInfos as infos, logout, setToken} from "../auth.js";
 import { checkIfLiked , relacionateIdimg, relacionateIdUser } from "../aux.js";
 import { parseISO, formatDistanceToNow } from 'https://esm.sh/date-fns@4'
@@ -13,7 +13,6 @@ export function setFeed(){
     setUserLayout();
     getCardPosts();
 }    
-
 async function getCardPosts(){
     let pos;
     try{
@@ -21,74 +20,157 @@ async function getCardPosts(){
     }catch(erro){
         return console.log("Erro de servidor :"+ erro);
     }
+    pos.reverse();
     for(let post of pos){
-            let id=post.id;
-            const clone=cardFeed.content.cloneNode(true);
-           //variables
-            let likesVector=await getLikes(id);
-            let likeUnits = clone.querySelector('[data-field="like-units"]');
-            let likeButton= clone.querySelector('[data-field="like"]');
-            let nameAuthorPost=await relacionateIdUser(post.usuario,usersIdList);
-            let imgAuthorPost=await relacionateIdimg(post.usuario,usersIdList);
-            //adiciona img e remove o initials
-            if(imgAuthorPost && imgAuthorPost !== "null"){
-                let imgAvatar=clone.querySelector('[data-field="post-avatar"]');
-                imgAvatar.src=imgAuthorPost;
-                imgAvatar.hidden=false;    
-                clone.querySelector('[data-field="post-initials"]').remove();
+        let id=post.id;
+        const clone=cardFeed.content.cloneNode(true);
+        //variables
+        const comentsLocal=clone.querySelector('[data-field="comments-list"]')
+        let likesVector=await getLikes(id);
+        let likeUnits = clone.querySelector('[data-field="like-units"]');
+        const likeButton= clone.querySelector('[data-field="like"]');
+        const nameAuthorPost=await relacionateIdUser(post.usuario,usersIdList);
+        const imgAuthorPost=await relacionateIdimg(post.usuario,usersIdList);
+        let postActions=clone.querySelector('[data-field="post-actions"]');
+        const delBtn=clone.querySelector('[data-field="deleteBtn"]');
+        const editBtn=clone.querySelector('[data-field="editBtn"]');
+        const myComment=clone.querySelector('[data-field="comment-input"]');
+        //commit fase
+        const commitsList=await getComments(id);
+        setComments(commitsList,comentsLocal,id);
+        //mostrar botões de editar e excluir caso seja meu post;
+        
+
+
+        const sendCommentForm=clone.querySelector('[data-field="comment-form"]');
+        sendCommentForm.addEventListener("submit",async (e)=>{
+            e.preventDefault();
+            try{
+                await sendComment(myComment.value,id);
+                await updateComments(id,comentsLocal);
+                myComment.value="";
+            }catch(erro){
+                console.log(e);
+
             }
-            else{
-                clone.querySelector('[data-field="post-initials"]').textContent=`${nameAuthorPost[0]+nameAuthorPost[1]}`;
-            }
-            clone.querySelector('[data-field="author"]').textContent = "@"+nameAuthorPost;
-            post.data = parseISO(post.data);
-            post.data = formatDistanceToNow(post.data, {
-                addSuffix: true,
-                locale: ptBR
-            });
-            clone.querySelector('[data-field="date"]').textContent = post.data;
-            clone.querySelector('[data-field="text"]').textContent=post.texto;
-            likeUnits.textContent=likesVector.length;
-            if(post.img!=null){
-                clone.querySelector('[data-field="post-img"]').src=post.img;
-                clone.querySelector('[data-field="post-img"]').hidden=false;
+        })
+
+
+
+        //mostra as opções se o usuario for o dono do post
+        if(String(post.usuario)===String(userId)){
+            postActions.hidden=false;
+        }
+
+        //adiciona img e remove o initials
+        if(imgAuthorPost && imgAuthorPost !== "null"){
+            let imgAvatar=clone.querySelector('[data-field="post-avatar"]');
+            imgAvatar.src=imgAuthorPost;
+            imgAvatar.hidden=false;    
+            clone.querySelector('[data-field="post-initials"]').remove();
+        }
+        else{
+            clone.querySelector('[data-field="post-initials"]').textContent=`${nameAuthorPost[0]}`;
+        }
+        clone.querySelector('[data-field="author"]').textContent = "@"+nameAuthorPost;
+        
+        
+        //arruma o tempo de publicação
+        post.data = parseISO(post.data);
+        post.data = formatDistanceToNow(post.data, {
+            addSuffix: true,
+            locale: ptBR
+        });
+
+        clone.querySelector('[data-field="date"]').textContent = post.data;
+        clone.querySelector('[data-field="text"]').textContent=post.texto;
+        likeUnits.textContent=likesVector.length;
+        if(post.img!=null){
+            clone.querySelector('[data-field="post-img"]').src=post.img;
+            clone.querySelector('[data-field="post-img"]').hidden=false;
+        }
+        
+        //se ja estiver com o nome na lista , o like tem que ja estar curtido 
+        if(checkIfLiked(userId,likesVector)){
+            likeButton.classList.add("liked");
+            likeButton.querySelector("svg").setAttribute("fill","currentColor");
+        }
+
+        delBtn.addEventListener("click",async ()=>{
+            await deletePost(id);
+            setFeed();
+        })
+
+        likeButton.addEventListener("click", async(e)=>{
+                await setLike(id);
+    
+                //seleciona o svg e se a classe liked ñ tiver add, adiciona
+                const svg=likeButton.querySelector("svg");
+                const liked = likeButton.classList.toggle("liked");
                 
-                
-            }
-            
-        
-        
-            //se ja estiver com o nome na lista , o like tem que ja estar curtido 
-            if(checkIfLiked(userId,likesVector)){
-                likeButton.classList.add("liked");
-                likeButton.querySelector("svg").setAttribute("fill","currentColor");
-            }
-            likeButton.addEventListener("click", async(e)=>{
-                    await setLike(id);
-        
-                    //seleciona o svg e se a classe liked ñ tiver add, adiciona
-                    const svg=likeButton.querySelector("svg");
-                    const liked = likeButton.classList.toggle("liked");
-                    
-                    // não da pra fazer likeUnits++
-                    const currentLikes=Number(likeUnits.textContent);
-                    likeUnits.textContent=liked?currentLikes+1:currentLikes-1;
-        
-                    //svg(modelar o botão bonitim),se a classe estiver ativada , muda o atributo fill(resp pela cor) para none, ou currentcolor[liked é uma classe em css] 
-                    svg.setAttribute("fill", liked ? "currentColor" : "none");
-        
-            });        
-            bodyFeed.appendChild(clone);
+                // não da pra fazer likeUnits++
+                const currentLikes=Number(likeUnits.textContent);
+                likeUnits.textContent=liked?currentLikes+1:currentLikes-1;
+    
+                //svg(modelar o botão bonitim),se a classe estiver ativada , muda o atributo fill(resp pela cor) para none, ou currentcolor[liked é uma classe em css] 
+                svg.setAttribute("fill", liked ? "currentColor" : "none");
+    
+        });        
+        bodyFeed.appendChild(clone);
     }
 
 }
 
+async function updateComments(id, container) {
+    const updatedComments = await getComments(id);
+    await setComments(updatedComments, container, id);
+}
 
+async function setComments(commitsList,bodyApend,postId){
+    bodyApend.replaceChildren();
+    for(let commit of commitsList){
+        console.log(commit)
+        const id=commit.id;
+        let comment=commentTemplate.content.cloneNode(true);
+        comment.querySelector('[data-field="comment-text"]').textContent=commit.texto;
+        let authorComment=await relacionateIdUser(commit.usuario,usersIdList);
+        let imgAuthorComment=await relacionateIdimg(commit.usuario,usersIdList);
+        comment.querySelector('[data-field="comment-author"]').textContent=authorComment;
+        
+        
+        if(imgAuthorComment && imgAuthorComment !== "null"){
+            comment.querySelector('[data-field="comment-initials"]').remove();
+            let img=comment.querySelector('[data-field="comment-avatar"]');
+            img.src=imgAuthorComment;
+            img.hidden=false;
+        }
+        else{
+            if(authorComment){
+            comment.querySelector('[data-field="comment-initials"]').textContent=`${authorComment[0]}`;
+                }
+        }
+        if(commit.usuario==userId){
+            
+            comment.querySelector('[data-field="comment-actions"]').hidden=false;
+        }
+        
+        
+        
+        const delbtnComment=comment.querySelector('[data-field="delete-comment"]');
+        delbtnComment.addEventListener("click",async (e)=>{
+            try{
+                await delComment(commit.id);
 
+                await updateComments(postId,bodyApend);
+            }
+            catch(erro){
+                console.log(erro);
+            }
+        })
 
-
-
-
+        bodyApend.appendChild(comment);
+    }
+}
 function setUserLayout(){
     let datas= infos();
     if(datas[1]!=""){

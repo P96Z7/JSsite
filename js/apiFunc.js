@@ -119,7 +119,7 @@ export async function setLike(id) {
 }
 
 
-//---> send post
+//---> Post
 
 export async function sendPost(msg,image) {
     let operation=await fetch(url+"/posts/",{
@@ -134,4 +134,64 @@ export async function sendPost(msg,image) {
         throw new Error("Erro de postagem");
     }
     return true;
+}
+
+export async function deletePost(id) {
+    let operation=await fetch(url+`/posts/${id}`,{
+        method:"DELETE",
+        headers:{
+            "Authorization": `Bearer ${userToken()}`,
+            "Content-Type":"application/json",
+        },
+    })
+    if(!operation.ok){
+        throw new Error("Erro de remoção");
+    }
+    return true;
+}
+
+
+
+//----> Coments
+
+export async function delComment(id) {
+    let operation=await fetch(url+`/comentarios/${id}`,{
+        method:"DELETE",
+        headers:{
+            "Authorization": `Bearer ${userToken()}`,
+            "Content-Type":"application/json"
+        },
+    });
+    if(!operation.ok){
+        throw new Error("Erro de remoção");
+    }
+    return true;
+    
+}
+
+
+export async function sendComment(text,id) {
+    let operation= await fetch(url+`/posts/${id}/comentarios`,{
+        method:"POST",
+        headers:{
+            "Authorization":`Bearer ${userToken()}`,
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({texto:text}),
+    });
+    if(!operation.ok){
+        throw new Error("Erro de envio de comentario!");
+    }
+    return true;
+
+    
+}
+
+export async function getComments(id){
+    let operation= await fetch(url+`/posts/${id}/comentarios`);
+    if(!operation.ok){
+        throw new Error("Erro de requisição de comentarios");
+    }
+    return operation.json();
+    
 }

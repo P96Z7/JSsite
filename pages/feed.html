@@ -13,7 +13,12 @@
 </head>
 <body>
 
-  <!-- TOPO -->
+
+
+
+
+
+  <!-- Top Bar -->
   <header class="topbar">
     <div class="topbar__inner">
       <h1 class="logo">SOCIAL MEDIA</h1>
@@ -29,10 +34,12 @@
     </div>
   </header>
 
-  <!-- POST -->
-  <main class="container">
 
-    <!-- Nova postagem (somente texto) -->
+
+
+
+  <!-- Send POST -->
+  <main class="container">
     <section class="card composer" aria-labelledby="composer-title">
       <h2 id="composer-title" class="visually-hidden">Nova postagem</h2>
       <form id="post-form">
@@ -42,7 +49,7 @@
                     placeholder="O que você está pensando?" required></textarea>
 
           <label for="post-image" class="visually-hidden">URL Imagem</label>
-          <input type="url" id="post-image" class="field" placeholder="URL da sua imagem...">
+          <input type="url" id="post-image" class="field-url" placeholder="URL da sua imagem...">
         </div>
         <div class="composer__footer">
           <button id="postPubli-btn" class="btn" type="submit">Publicar</button>
@@ -52,33 +59,64 @@
     
     
     
-    <!--CONTEUDO-->
+
+
+
+    <!--FEED-->
     
     <section id="feed" class="feed" aria-live="polite" aria-label="Postagens">
-      <!-- Feed: o JS insere as postagens aqui -->
+      <!-- Feed: postagens aqui -->
 
 
     </section>
 
-    <!-- Mensagem para feed vazio (o JS pode remover o atributo hidden quando não houver posts) -->
-    <!--<p id="feed-empty" class="muted feed-empty" >Nenhuma postagem ainda. Escreva a primeira!</p> -->
 
-    <!-- Modelo de uma postagem: o JS clona este template para cada post vindo do servidor -->
+
+
+    <!-- Modelo de uma postagem-->
     <template id="post-template">
       <article class="card post">
         <header class="post__header">
           <img data-field="post-avatar" class="avatar" src="" alt="" hidden>
           <span data-field="post-initials" class="avatar" aria-hidden="true">?</span>          
-      
-            <div class="post__author" data-field="author"></div>
-            <time class="muted" data-field="date"></time>
-          
+          <div class="post__author" data-field="author"></div>
+          <time class="muted" data-field="date"></time>
+
+          <!--Botões  Header-->
+          <div class="post__actions" data-field="post-actions" hidden>
+            <button
+                type="button"
+                class="post__action-btn"
+                data-action="edit-post"
+                aria-label="Editar publicação"
+                title="Editar"
+                data-field="editBtn">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 20h9"/>
+                    <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z"/>
+                </svg>
+            </button>
+            <button
+                type="button"
+                class="post__action-btn post__action-btn--delete"
+                data-action="delete-post"
+                aria-label="Excluir publicação"
+                title="Excluir"
+                data-field="deleteBtn">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M3 6h18"/>
+                    <path d="M8 6V4h8v2"/>
+                    <path d="m19 6-1 14H6L5 6"/>
+                    <path d="M10 11v5M14 11v5"/>
+                </svg>
+            </button>
+        </div>
         </header>
         <p class="post__text" data-field="text"></p>
         <img src="" data-field="post-img" hidden>
+        <!-- buttons Footer -->
         <div class="button-containers">
           <button class="like-btn" data-field="like">
-            <!--like button-->
             <svg xmlns="http://www.w3.org/2000/svg"
                 width="24"
                 height="24"
@@ -93,25 +131,95 @@
               </svg>
             </button>
             <span data-field="like-units">0</span>
-
-    <!--      <button class="btn-comentario" aria-label="Comentar" id="coment-button">
-            <svg viewBox="0 0 24 24" 
-              xmlns="http://w3.org">
-              <path class="balao" d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
-              <circle cx="6" cy="10" r="1.5" class="ponto" />
-              <circle cx="12" cy="10" r="1.5" class="ponto" />
-              <circle cx="18" cy="10" r="1.5" class="ponto" />
-            </svg>
-          </button>
-          -->
         </div>
+        <!--COMENTÁRIOS-->
+        <section class="post__comments" aria-label="Comentários da publicação">
+            <h3 class="comments__title">Comentários</h3>
+            <div class="comments__list" data-field="comments-list">
+              <!-- Os comentários serão inseridos aqui pelo JavaScript -->
+            </div>
+            
+            <!-- Formulário para enviar um comentário -->
+            <form class="comment__form" data-field="comment-form">
+              
+              <textarea
+              class="comment__input"
+              data-field="comment-input"
+              placeholder="Escreva um comentário..."
+              aria-label="Escreva um comentário"
+              rows="1"
+              maxlength="500"
+              required
+              ></textarea>
+              
+              <button
+              class="comment__submit"
+              type="submit"
+              aria-label="Enviar comentário"
+              title="Enviar comentário"
+              >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M22 2 11 13"/>
+                        <path d="m22 2-7 20-4-9-9-4Z"/>
+                    </svg>
+                </button>
+
+            </form>
+        </section>
       </article>
     </template>
 
   </main>
 
+  <!-- Modelo de um comentário individual -->
+  <template id="comment-template">
+    <article class="comment">
+      <img
+      class="comment__avatar"
+      data-field="comment-avatar"
+      src=""
+      alt=""
+      hidden
+      >
+      
+      <span
+      class="comment__initials"
+      data-field="comment-initials"
+      aria-hidden="true"
+      >?</span>
+      
+      <div class="comment__content">
+        <span
+        class="comment__author"
+        data-field="comment-author"
+        ></span>
+        <div class="comment__actions" data-field="comment-actions" hidden >
+          <button type="button" class="comment__action-btn" data-field="edit-comment" aria-label="Editar comentário" title="Editar">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 20h9"/>
+              <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z"/>
+            </svg>
+          </button>
+
+          <button type="button" class="comment__action-btn comment__action-btn--delete" data-field="delete-comment" aria-label="Excluir comentário" title="Excluir">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3 6h18"/>
+              <path d="M8 6V4h8v2"/>
+              <path d="m19 6-1 14H6L5 6"/>
+              <path d="M10 11v5M14 11v5"/>
+            </svg>
+          </button>
+        </div>
+        <p
+        class="comment__text"
+        data-field="comment-text"
+        ></p>
+      </div>
+    </article>
+  </template>
   <script type="module" src="../js/feed/getFeed.js"></script>
   <script type="module" src="../js/feed/userFuncs/comments.js"></script>
   <script type="module" src="../js/feed/userFuncs/post.js"></script>
+  
 </body>
 </html>
