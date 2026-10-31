@@ -1,6 +1,7 @@
-import { delComment, deletePost, getComments, getInfoPosts,getLikes,sendComment,setLike , UsersAPI} from "../apiFunc.js";
-import { cardFeed , commentTemplate,bodyFeed, userName, imgUser, userHidden, logoutBtn} from "../constants.js";
-import { getId, getToken,getUserInfos as infos, logout, setToken} from "../auth.js";
+import { deletePost, getComments, getInfoPosts,getLikes,sendComment,setLike , UsersAPI} from "../apiFunc.js";
+import { cardFeed ,bodyFeed, userName, imgUser, userHidden, logoutBtn} from "../constants.js";
+import { getId,getUserInfos as infos, logout, setToken} from "../auth.js";
+import { setComments, updateComments } from "./userFuncs/comments.js";
 import { checkIfLiked , relacionateIdimg, relacionateIdUser } from "../aux.js";
 import { parseISO, formatDistanceToNow } from 'https://esm.sh/date-fns@4'
 import { ptBR } from 'https://esm.sh/date-fns@4/locale'
@@ -40,8 +41,6 @@ async function getCardPosts(){
         setComments(commitsList,comentsLocal,id);
         //mostrar botões de editar e excluir caso seja meu post;
         
-
-
         const sendCommentForm=clone.querySelector('[data-field="comment-form"]');
         sendCommentForm.addEventListener("submit",async (e)=>{
             e.preventDefault();
@@ -121,56 +120,6 @@ async function getCardPosts(){
 
 }
 
-async function updateComments(id, container) {
-    const updatedComments = await getComments(id);
-    await setComments(updatedComments, container, id);
-}
-
-async function setComments(commitsList,bodyApend,postId){
-    bodyApend.replaceChildren();
-    for(let commit of commitsList){
-        console.log(commit)
-        const id=commit.id;
-        let comment=commentTemplate.content.cloneNode(true);
-        comment.querySelector('[data-field="comment-text"]').textContent=commit.texto;
-        let authorComment=await relacionateIdUser(commit.usuario,usersIdList);
-        let imgAuthorComment=await relacionateIdimg(commit.usuario,usersIdList);
-        comment.querySelector('[data-field="comment-author"]').textContent=authorComment;
-        
-        
-        if(imgAuthorComment && imgAuthorComment !== "null"){
-            comment.querySelector('[data-field="comment-initials"]').remove();
-            let img=comment.querySelector('[data-field="comment-avatar"]');
-            img.src=imgAuthorComment;
-            img.hidden=false;
-        }
-        else{
-            if(authorComment){
-            comment.querySelector('[data-field="comment-initials"]').textContent=`${authorComment[0]}`;
-                }
-        }
-        if(commit.usuario==userId){
-            
-            comment.querySelector('[data-field="comment-actions"]').hidden=false;
-        }
-        
-        
-        
-        const delbtnComment=comment.querySelector('[data-field="delete-comment"]');
-        delbtnComment.addEventListener("click",async (e)=>{
-            try{
-                await delComment(commit.id);
-
-                await updateComments(postId,bodyApend);
-            }
-            catch(erro){
-                console.log(erro);
-            }
-        })
-
-        bodyApend.appendChild(comment);
-    }
-}
 function setUserLayout(){
     let datas= infos();
     if(datas[1]!=""){
