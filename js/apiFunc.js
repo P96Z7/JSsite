@@ -195,3 +195,18 @@ export async function getComments(id){
     return operation.json();
     
 }
+
+export async function editComments(text, id){
+    let operation = await fetch(url+`/comentarios/${id}`, {
+        method: "PUT",
+        headers:{
+            "Authorization": `Bearer ${userToken()}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({texto: text}),
+    });
+    if(!operation.ok){
+        throw new Error("Erro de edição de comentário");
+    }
+    return true;
+};
