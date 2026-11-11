@@ -1,7 +1,7 @@
 import { commentTemplate } from "../../constants.js";
 import { relacionateIdUser, relacionateIdimg } from "../../aux.js";
 import { getId } from "../../auth.js";
-import { UsersAPI ,delComment ,getComments} from "../../apiFunc.js";
+import { UsersAPI ,delComment ,getComments, editComments} from "../../apiFunc.js";
 
 const userId= await getId();
 const usersIdList= await UsersAPI();
@@ -52,6 +52,45 @@ export async function setComments(commitsList,bodyApend,postId){
             }
         })
 
+        const editBtnComment=comment.querySelector('[data-field="edit-comment"]');
+        const editTextComment=comment.querySelector('[data-field="editTextComment"]');
+
+        editBtnComment.addEventListener("click", async (e) => {
+            try{
+                await exibeEdicao(editTextComment, id, postId, bodyApend);
+            }
+            catch(erro){
+                console.log(erro);
+            }
+        });
         bodyApend.appendChild(comment);
     }
+}
+
+async function exibeEdicao(local, id, idPost, bodyAppend){
+    let localChild = local.firstElementChild;
+    let text = localChild.textContent;
+    localChild.remove();
+    
+    let form = document.createElement("form");
+    let textArea = document.createElement("textarea");
+    textArea.innerText = text;
+    textArea.required = true;
+    textArea.classList.add("comment__input");
+
+    let sendBtn = document.createElement("button");
+    sendBtn.type = "submit";
+    sendBtn.classList.add("btn");
+    sendBtn.innerText = "Atualizar";
+
+    let quebraLinha = document.createElement("br");
+
+    form.append(textArea, quebraLinha, sendBtn);
+    local.append(form);
+
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        await editComments(textArea.value, id);
+        await updateComments(idPost, bodyAppend);
+    });
 }
