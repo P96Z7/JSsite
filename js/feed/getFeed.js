@@ -2,9 +2,10 @@ import { deletePost, getComments, getInfoPosts,getLikes,sendComment,setLike , Us
 import { cardFeed ,bodyFeed, userName, imgUser, userHidden, logoutBtn} from "../constants.js";
 import { getId,getUserInfos as infos, logout, setToken} from "../auth.js";
 import { setComments, updateComments } from "./userFuncs/comments.js";
-import { checkIfLiked , relacionateIdimg, relacionateIdUser } from "../aux.js";
+import { checkIfLiked , relacionateIdimg, relacionateIdUser } from "../feedHelpers.js";
 import { parseISO, formatDistanceToNow } from 'https://esm.sh/date-fns@4'
 import { ptBR } from 'https://esm.sh/date-fns@4/locale'
+import { openPostEdition } from "./userFuncs/post.js";
 
 const userId=await getId();
 const usersIdList= await UsersAPI();
@@ -35,6 +36,7 @@ async function getCardPosts(){
         let postActions=clone.querySelector('[data-field="post-actions"]');
         const delBtn=clone.querySelector('[data-field="deleteBtn"]');
         const editBtn=clone.querySelector('[data-field="editBtn"]');
+        const postContent=clone.querySelector('[data-field="post-content"]');
         const myComment=clone.querySelector('[data-field="comment-input"]');
         //commit fase
         const commitsList=await getComments(id);
@@ -114,7 +116,10 @@ async function getCardPosts(){
                 //svg(modelar o botão bonitim),se a classe estiver ativada , muda o atributo fill(resp pela cor) para none, ou currentcolor[liked é uma classe em css] 
                 svg.setAttribute("fill", liked ? "currentColor" : "none");
     
-        });        
+        });
+        editBtn.addEventListener("click", () => {
+            openPostEdition(id, postContent);
+        });
         bodyFeed.appendChild(clone);
     }
 

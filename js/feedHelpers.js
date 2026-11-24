@@ -23,4 +23,4 @@ export function relacionateIdimg(id,vector){
             return dado.img;
         }
     }
-}
+}   

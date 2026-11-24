@@ -1,5 +1,5 @@
 import { commentTemplate } from "../../constants.js";
-import { relacionateIdUser, relacionateIdimg } from "../../aux.js";
+import { relacionateIdUser, relacionateIdimg } from "../../feedHelpers.js";
 import { getId } from "../../auth.js";
 import { UsersAPI ,delComment ,getComments, editComments} from "../../apiFunc.js";
 
