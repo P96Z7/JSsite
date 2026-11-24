@@ -11,7 +11,7 @@ js/
 │
 ├── apiFunc.js
 ├── auth.js
-├── aux.js
+├── feedHelpers.js
 ├── constants.js
 │
 ├── login/
@@ -71,7 +71,7 @@ Responsável pelo gerenciamento das informações da sessão do usuário utiliza
 | `setUser(user)` | Armazena nome, imagem e ID do usuário. |
 | `getUserInfos()` | Recupera nome e imagem do usuário. |
 
-### `aux.js`
+### `feedHelpers.js`
 
 Contém funções auxiliares utilizadas para relacionar informações entre os dados recebidos da API.
 

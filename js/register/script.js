@@ -21,7 +21,7 @@ async function _register(nome,login,senha,img) {
             let register = await registerAPI(login,senha,nome,img);
             document.querySelector("#LogErr")?.remove();
             document.querySelector("#sucessReg")?.remove();
-            let sucessfull=document.createElement("h2");
+            let sucessfull=document.createElement("h2");            
             sucessfull.innerText="Sucesfull register";
             sucessfull.id="sucessReg";
             formReg.appendChild(sucessfull);

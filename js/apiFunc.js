@@ -208,5 +208,23 @@ export async function editComments(text, id){
     if(!operation.ok){
         throw new Error("Erro de edição de comentário");
     }
-    return true;
+    return true;        
 };
+
+export async function editPost(text, image, idPost){
+    let op = await fetch(url+`/posts/${idPost}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${userToken()}`
+        },
+        body: JSON.stringify({
+            texto: text,
+            img: image,
+        }),
+    })
+    if(!op.ok){
+        throw new Error("Erro ao editar postagem!");
+    }
+    return true;
+}
